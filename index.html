@@ -8,149 +8,396 @@
 <meta property="og:title" content="Junwei — AI and Data Engineer">
 <meta property="og:description" content="Agentic systems, data pipelines and ML applications. Toronto, Ontario.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
 <style>
-html{scroll-behavior:smooth}
-body{margin:0;background:#F6F6F3}
-a{color:#1F4FA8}a:hover{color:#163A7D}
+  :root {
+    --bg: #F6F6F3;
+    --surface: #FFFFFF;
+    --ink: #16181D;
+    --text: #3A3F4A;
+    --muted: #4A505C;
+    --line: #DCDCD5;
+    --card-line: #E2E2DC;
+    --placeholder: #ECEFF5;
+    --accent: #1F4FA8;
+    --accent-hover: #163A7D;
+    --footer-text: #C9CCD3;
+    --footer-link: #A9C4F5;
+    --display: 'Space Grotesk', sans-serif;
+    --max: 1120px;
+  }
+
+  /* Base */
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Inter, system-ui, sans-serif;
+  }
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-hover); }
+  h1, h2, h3, p { margin: 0; }
+  h1, h2, .card h3, .logo { font-family: var(--display); }
+
+  /* Layout */
+  .container {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .section h2 { font-size: 34px; font-weight: 700; }
+
+  /* Header */
+  .site-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo { font-weight: 700; font-size: 20px; color: var(--ink); text-decoration: none; }
+  .nav { display: flex; flex-wrap: wrap; gap: 8px; }
+  .nav a { padding: 12px 14px; color: var(--text); text-decoration: none; font-size: 15px; }
+  .nav a:hover { color: var(--ink); }
+
+  /* Hero */
+  .hero {
+    padding-top: 72px;
+    padding-bottom: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .eyebrow {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .hero h1 {
+    font-weight: 700;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.05;
+    max-width: 860px;
+  }
+  .lead { font-size: 18px; line-height: 1.6; color: var(--text); max-width: 680px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 0 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--ink); color: #FFFFFF; }
+  .btn-primary:hover { background: #2A2D35; color: #FFFFFF; }
+  .btn-outline { border: 1.5px solid var(--ink); }
+  .btn-outline:hover { background: var(--ink); color: #FFFFFF; }
+  .btn-link { text-decoration: underline; }
+  .btn-link:hover { color: var(--accent); }
+
+  /* Projects */
+  .section-intro { display: flex; flex-direction: column; gap: 8px; }
+  .section-intro p { color: var(--muted); font-size: 16px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--card-line);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .card-media {
+    height: 160px;
+    border-radius: 10px;
+    background: var(--placeholder);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 13px;
+    overflow: hidden;
+  }
+  .card-media img { width: 100%; height: 100%; object-fit: cover; }
+  .tag {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .card h3 { font-size: 22px; }
+  .card-body { line-height: 1.55; color: var(--text); font-size: 15px; }
+  .stack { font-size: 13px; color: var(--muted); }
+  .card-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: auto;
+    padding-top: 4px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* Timeline rows (experience, education) */
+  .rows { border-bottom: 1px solid var(--line); }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+  }
+  .row-date { flex: 0 0 200px; font-size: 14px; color: var(--muted); }
+  .row-content { flex: 1 1 480px; display: flex; flex-direction: column; gap: 8px; }
+  .row-content h3 { font-size: 18px; font-weight: 600; }
+  .row-content p { line-height: 1.6; color: var(--text); font-size: 15px; }
+
+  /* Skills */
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: 20px;
+  }
+  .skill { display: flex; flex-direction: column; gap: 8px; }
+  .skill h3 { font-size: 15px; font-weight: 600; }
+  .skill p { line-height: 1.6; color: var(--text); font-size: 15px; }
+
+  /* Footer / contact */
+  .site-footer { background: var(--ink); color: var(--bg); margin-top: 48px; }
+  .footer-inner {
+    padding-top: 64px;
+    padding-bottom: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .footer-inner h2 { font-size: 34px; font-weight: 700; }
+  .footer-inner p { max-width: 560px; line-height: 1.6; color: var(--footer-text); font-size: 16px; }
+  .footer-inner p a { color: var(--footer-link); }
+
+  /* Social icon buttons */
+  .socials { display: flex; flex-wrap: wrap; gap: 16px; padding-top: 4px; }
+  .social {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #23262E;
+    border: 1.5px solid #3A3F4A;
+    color: var(--footer-text);
+    transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+  }
+  .social:hover {
+    background: var(--footer-link);
+    border-color: var(--footer-link);
+    color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .social:focus-visible { outline: 2px solid var(--footer-link); outline-offset: 3px; }
+  .social svg { width: 24px; height: 24px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .social { transition: none; }
+    .social:hover { transform: none; }
+  }
 </style>
 </head>
 <body>
-<div style="font-family: Inter, system-ui, sans-serif; color: #16181D; background: #F6F6F3; min-height: 100vh">
 
-<header style="max-width: 1120px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center">
-<a href="#top" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; color: #16181D; text-decoration: none">Junwei</a>
-<nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 8px">
-<a href="#projects" style="padding: 12px 14px; color: #3A3F4A; text-decoration: none; font-size: 15px">Projects</a>
-<a href="#experience" style="padding: 12px 14px; color: #3A3F4A; text-decoration: none; font-size: 15px">Experience</a>
-<a href="#skills" style="padding: 12px 14px; color: #3A3F4A; text-decoration: none; font-size: 15px">Skills</a>
-<a href="#contact" style="padding: 12px 14px; color: #3A3F4A; text-decoration: none; font-size: 15px">Contact</a>
-</nav>
+<header class="container site-header">
+  <a href="#top" class="logo">Junwei</a>
+  <nav class="nav" aria-label="Main">
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </nav>
 </header>
 
-<section id="top" style="max-width: 1120px; margin: 0 auto; padding: 72px 24px 64px; display: flex; flex-direction: column; gap: 24px">
-<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #1F4FA8">AI and data engineer · Toronto</p>
-<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1.05; max-width: 860px">I build agentic systems, data pipelines and ML applications that run end to end.</h1>
-<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #3A3F4A; max-width: 680px">Computer Science (Hons. B.Sc.) at York University. Former research assistant on remote-sensing ML. MLH Fellowship. I like taking a messy problem from raw data to a working, deployed tool.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
-<a href="https://github.com/Wei-cyber" style="display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 10px; background: #16181D; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 15px">View GitHub
-<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></a>
-<a href="#" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 10px; border: 1.5px solid #16181D; color: #16181D; text-decoration: none; font-weight: 600; font-size: 15px">Resume (PDF) [LINK]</a>
-<a href="#contact" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 10px; color: #16181D; text-decoration: underline; font-weight: 600; font-size: 15px">Get in touch</a>
-</div>
-</section>
+<main>
 
-<section id="projects" style="max-width: 1120px; margin: 0 auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 28px">
-<div style="display: flex; flex-direction: column; gap: 8px">
-<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700">Selected projects</h2>
-<p style="margin: 0; color: #4A505C; font-size: 16px">Grouped by what they show: agentic systems, data engineering, and applied ML.</p>
-</div>
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 20px">
+  <section id="top" class="container hero">
+    <p class="eyebrow">AI and data engineer · Toronto</p>
+    <h1>I build agentic systems, data pipelines and ML applications that run end to end.</h1>
+    <p class="lead">Computer Science (Hons. B.Sc.) at York University. Former research assistant on remote-sensing ML. I like taking a messy problem from raw data to a working, deployed tool.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="https://github.com/Wei-cyber">View GitHub
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+      </a>
+      <a class="btn btn-outline" href="https://drive.google.com/file/d/17EcjUcPQTEFz8Udg9ZXQhlb-hCdJWN_B/view?usp=sharing">Resume (PDF)</a>
+      <a class="btn btn-link" href="#contact">Get in touch</a>
+    </div>
+  </section>
 
-<article style="background: #FFFFFF; border: 1px solid #E2E2DC; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
-<div style="height: 160px; border-radius: 10px; background: #ECEFF5; display: flex; align-items: center; justify-content: center; color: #4A505C; font-size: 13px">[Screenshot or architecture diagram]</div>
-<p style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1F4FA8">Agentic systems</p>
-<h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Model Room</h3>
-<p style="margin: 0; line-height: 1.55; color: #3A3F4A; font-size: 15px">A browser 3D editor where a person and a ChatGPT/Codex agent edit the same scene. The agent works through WebMCP tools: add, transform, recolor, Boolean ops, shared undo/redo and branching checkpoints. Entered in the OpenAI/Devpost WebMCP Challenge.</p>
-<p style="margin: 0; font-size: 13px; color: #4A505C">WebMCP · Three.js [CONFIRM] · TypeScript [CONFIRM]</p>
-<div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: auto; padding-top: 4px; font-size: 14px; font-weight: 600"><a href="#">Demo [LINK]</a><a href="#">Devpost [LINK]</a><a href="#">Code [LINK]</a></div>
-</article>
+  <section id="projects" class="container section">
+    <div class="section-intro">
+      <h2>Selected projects</h2>
+    </div>
 
-<article style="background: #FFFFFF; border: 1px solid #E2E2DC; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
-<div style="height: 160px; border-radius: 10px; background: #ECEFF5; display: flex; align-items: center; justify-content: center; color: #4A505C; font-size: 13px">[Architecture diagram]</div>
-<p style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1F4FA8">Agentic systems</p>
-<h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Human-Agent Workforce Platform</h3>
-<p style="margin: 0; line-height: 1.55; color: #3A3F4A; font-size: 15px">A task-routing prototype that classifies incoming work and assigns it to people or AI agents. Agents run multi-step reasoning on AWS Bedrock with tool calling through backend API endpoints. Debugged tool-result schemas, SDK behavior and tool-step limits end to end.</p>
-<p style="margin: 0; font-size: 13px; color: #4A505C">AWS Bedrock · Tool calling · Python · REST API</p>
-<div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: auto; padding-top: 4px; font-size: 14px; font-weight: 600"><a href="https://github.com/Wei-cyber/humanAgentOS">Code</a><a href="#">Demo video [LINK]</a></div>
-</article>
+    <div class="grid">
 
-<article style="background: #FFFFFF; border: 1px solid #E2E2DC; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
-<div style="height: 160px; border-radius: 10px; background: #ECEFF5; display: flex; align-items: center; justify-content: center; color: #4A505C; font-size: 13px">[Dashboard screenshot]</div>
-<p style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1F4FA8">Data engineering</p>
-<h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Product Intelligence Platform</h3>
-<p style="margin: 0; line-height: 1.55; color: #3A3F4A; font-size: 15px">An ELT platform that pulls product pricing and search-ranking data from external APIs on a schedule, validates it, and surfaces trends in an interactive dashboard. Built for pricing analysis, competitor monitoring and ranking-volatility detection.</p>
-<p style="margin: 0; font-size: 13px; color: #4A505C">Airflow · Docker · Python · Data validation</p>
-<div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: auto; padding-top: 4px; font-size: 14px; font-weight: 600"><a href="https://github.com/Wei-cyber/productIntelligence">Code</a><a href="#">Live dashboard [LINK]</a></div>
-</article>
+      <article class="card">
+        <div class="card-media"><img src="./images/synmod.png"></div>
+        <p class="tag">Agentic systems</p>
+        <h3>SynMod</h3>
+        <p class="card-body">A browser 3D editor where a person and a ChatGPT/Codex agent edit the same scene. The agent works through WebMCP tools: add, transform, recolor, Boolean ops, shared undo/redo and branching checkpoints. Entered in the OpenAI/Devpost WebMCP Challenge.</p>
+        <p class="stack">WebMCP · Three.js [CONFIRM] · TypeScript [CONFIRM]</p>
+        <div class="card-links">
+          <a href="https://www.youtube.com/watch?v=L7lu2ggAZJg">Demo</a>
+          <a href="https://webmcp.devpost.com/">Devpost</a>
+          <a href="https://github.com/Wei-cyber/SynMod">Code</a>
+        </div>
+      </article>
 
-<article style="background: #FFFFFF; border: 1px solid #E2E2DC; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
-<div style="height: 160px; border-radius: 10px; background: #ECEFF5; display: flex; align-items: center; justify-content: center; color: #4A505C; font-size: 13px">[Pipeline diagram]</div>
-<p style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1F4FA8">Data engineering · AI</p>
-<h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Document Processing and Semantic Search</h3>
-<p style="margin: 0; line-height: 1.55; color: #3A3F4A; font-size: 15px">A FastAPI service that ingests PDFs, chunks them with a token-aware, sentence-boundary-respecting pipeline, embeds them, and serves semantic search over pgvector.</p>
-<p style="margin: 0; font-size: 13px; color: #4A505C">FastAPI · PyMuPDF · tiktoken · pgvector · OpenAI embeddings · SQLAlchemy</p>
-<div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: auto; padding-top: 4px; font-size: 14px; font-weight: 600"><a href="https://github.com/Wei-cyber/agenticWorkplace">Code</a></div>
-</article>
+      <article class="card">
+        <div class="card-media"><img src="./images/human_OS.png"></div>
+        <p class="tag">Agentic systems</p>
+        <h3>Human-Agent Workforce Platform</h3>
+        <p class="card-body">A task-routing prototype that classifies incoming work and assigns it to people or AI agents. Agents run multi-step reasoning on AWS Bedrock with tool calling through backend API endpoints. Debugged tool-result schemas, SDK behavior and tool-step limits end to end.</p>
+        <p class="stack">AWS Bedrock · Tool calling · Python · REST API</p>
+        <div class="card-links">
+          <a href="https://github.com/Wei-cyber/humanAgentOS">Code</a>
+        </div>
+      </article>
 
-<article style="background: #FFFFFF; border: 1px solid #E2E2DC; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
-<div style="height: 160px; border-radius: 10px; background: #ECEFF5; display: flex; align-items: center; justify-content: center; color: #4A505C; font-size: 13px">[Leaderboard or results chart]</div>
-<p style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1F4FA8">Applied ML</p>
-<h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">RSNA Knee Abnormality Detection</h3>
-<p style="margin: 0; line-height: 1.55; color: #3A3F4A; font-size: 15px">Kaggle medical-imaging competition. Reproduced a strong public CoAtNet baseline exactly (0.924 public LB) inside the 45-minute offline inference budget on T4×2, then iterated from there. Final rank: [RANK].</p>
-<p style="margin: 0; font-size: 13px; color: #4A505C">PyTorch [CONFIRM] · CoAtNet · Kaggle · Cross-validation</p>
-<div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: auto; padding-top: 4px; font-size: 14px; font-weight: 600"><a href="#">Kaggle notebook [LINK]</a><a href="#">Write-up [LINK]</a></div>
-</article>
+      <article class="card">
+        <div class="card-media"><img src="./images/amazon_pricing.png"></div>
+        <p class="tag">Data engineering</p>
+        <h3>Product Intelligence Platform</h3>
+        <p class="card-body">An ELT platform that pulls product pricing and search-ranking data from external APIs on a schedule, validates it, and surfaces trends in an interactive dashboard. Built for pricing analysis, competitor monitoring and ranking-volatility detection.</p>
+        <p class="stack">Airflow · Docker · Python · Data validation</p>
+        <div class="card-links">
+          <a href="https://github.com/Wei-cyber/productIntelligence">Code</a>
+        </div>
+      </article>
 
-<article style="background: #FFFFFF; border: 1px solid #E2E2DC; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
-<div style="height: 160px; border-radius: 10px; background: #ECEFF5; display: flex; align-items: center; justify-content: center; color: #4A505C; font-size: 13px">[Screenshot]</div>
-<p style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1F4FA8">AI tooling</p>
-<h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Job Application Tracker</h3>
-<p style="margin: 0; line-height: 1.55; color: #3A3F4A; font-size: 15px">Reads my Gmail and uses LLM function calling to extract each application's company, role and status into structured, validated records. Postgres and Airflow are the next layer.</p>
-<p style="margin: 0; font-size: 13px; color: #4A505C">Gmail API · OpenAI function calling · Pydantic</p>
-<div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: auto; padding-top: 4px; font-size: 14px; font-weight: 600"><a href="#">Code [LINK]</a></div>
-</article>
+      <article class="card">
+        <div class="card-media"><img src="./images/Sover_interfaces.png"></div>
+        <p class="tag">Data engineering · AI</p>
+        <h3>Document Processing and Semantic Search</h3>
+        <p class="card-body">A FastAPI service that ingests PDFs, chunks them with a token-aware, sentence-boundary-respecting pipeline, embeds them, and serves semantic search over pgvector.</p>
+        <p class="stack">FastAPI · PyMuPDF · tiktoken · pgvector · OpenAI embeddings · SQLAlchemy</p>
+        <div class="card-links">
+          <a href="https://github.com/Wei-cyber/Sovereignty">Code</a>
+        </div>
+      </article>
 
-</div>
-</section>
+      <article class="card">
+        <div class="card-media"><img src="./images/leaderboard.png"></div>
+        <p class="tag">Applied ML</p>
+        <h3>RSNA Knee Abnormality Detection</h3>
+        <p class="card-body">Kaggle medical-imaging competition. Reproduced a strong public CoAtNet baseline exactly (0.924 public LB) inside the 45-minute offline inference budget on T4×2, then iterated from there. Final rank: [RANK].</p>
+        <p class="stack">PyTorch [CONFIRM] · CoAtNet · Kaggle · Cross-validation</p>
+        <div class="card-links">
+          <a href="https://www.kaggle.com/drewrytran/code">Kaggle notebook</a>
+          <a href="#">Write-up [LINK]</a>
+        </div>
+      </article>
 
-<section id="experience" style="max-width: 1120px; margin: 0 auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 24px">
-<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700">Experience</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 12px 32px; padding: 24px 0; border-top: 1px solid #DCDCD5">
-<p style="margin: 0; flex: 0 0 200px; font-size: 14px; color: #4A505C">May 2024 – Apr 2025</p>
-<div style="flex: 1 1 480px; display: flex; flex-direction: column; gap: 8px">
-<h3 style="margin: 0; font-size: 18px; font-weight: 600">Research Assistant, York University</h3>
-<p style="margin: 0; line-height: 1.6; color: #3A3F4A; font-size: 15px">Built Python pipelines processing field measurements, geospatial data and LiDAR datasets for ML research on remote-sensing image segmentation and vegetation mapping in TensorFlow.</p>
-</div>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 12px 32px; padding: 24px 0; border-top: 1px solid #DCDCD5">
-<p style="margin: 0; flex: 0 0 200px; font-size: 14px; color: #4A505C">[DATES]</p>
-<div style="flex: 1 1 480px; display: flex; flex-direction: column; gap: 8px">
-<h3 style="margin: 0; font-size: 18px; font-weight: 600">MLH Fellowship</h3>
-<p style="margin: 0; line-height: 1.6; color: #3A3F4A; font-size: 15px">[One line on what you built or contributed to, with a link to the PR or project.]</p>
-</div>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 12px 32px; padding: 24px 0; border-top: 1px solid #DCDCD5; border-bottom: 1px solid #DCDCD5">
-<p style="margin: 0; flex: 0 0 200px; font-size: 14px; color: #4A505C">Expected May 2026</p>
-<div style="flex: 1 1 480px; display: flex; flex-direction: column; gap: 8px">
-<h3 style="margin: 0; font-size: 18px; font-weight: 600">Hons. B.Sc. Computer Science, York University</h3>
-<p style="margin: 0; line-height: 1.6; color: #3A3F4A; font-size: 15px">Also holds a psychology degree from York, which shapes how I think about the people using the systems I build.</p>
-</div>
-</div>
-</section>
+    </div>
+  </section>
 
-<section id="skills" style="max-width: 1120px; margin: 0 auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 24px">
-<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700">Skills</h2>
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 20px">
-<div style="display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-size: 15px; font-weight: 600">AI and agents</h3><p style="margin: 0; line-height: 1.6; color: #3A3F4A; font-size: 15px">LLM tool calling, AWS Bedrock, OpenAI API, WebMCP, RAG and embeddings</p></div>
-<div style="display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-size: 15px; font-weight: 600">Data engineering</h3><p style="margin: 0; line-height: 1.6; color: #3A3F4A; font-size: 15px">Airflow, ELT, PostgreSQL / pgvector, SQLAlchemy, data validation, Docker</p></div>
-<div style="display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-size: 15px; font-weight: 600">Machine learning</h3><p style="margin: 0; line-height: 1.6; color: #3A3F4A; font-size: 15px">TensorFlow, computer vision, image segmentation, geospatial and LiDAR data</p></div>
-<div style="display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-size: 15px; font-weight: 600">Backend</h3><p style="margin: 0; line-height: 1.6; color: #3A3F4A; font-size: 15px">Python, FastAPI, Pydantic, REST APIs, Chrome extensions (MV3)</p></div>
-</div>
-</section>
+  <section id="experience" class="container section">
+    <h2>Experience</h2>
+    <div class="rows">
+      <div class="row">
+        <p class="row-date">May 2024 – Apr 2025</p>
+        <div class="row-content">
+          <h3>Research Assistant, York University</h3>
+          <p>Built Python pipelines processing field measurements, geospatial data and LiDAR datasets for ML research on remote-sensing image segmentation and vegetation mapping in TensorFlow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<footer id="contact" style="background: #16181D; color: #F6F6F3; margin-top: 48px">
-<div style="max-width: 1120px; margin: 0 auto; padding: 64px 24px; display: flex; flex-direction: column; gap: 20px">
-<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700">Let's talk</h2>
-<p style="margin: 0; max-width: 560px; line-height: 1.6; color: #C9CCD3; font-size: 16px">Open to AI engineering, data engineering and data science roles anywhere in Ontario.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 16px; font-weight: 600">
-<a href="#" style="color: #A9C4F5; padding: 12px 0">[YOUR EMAIL]</a>
-<a href="#" style="color: #A9C4F5; padding: 12px 0">LinkedIn [LINK]</a>
-<a href="https://github.com/Wei-cyber" style="color: #A9C4F5; padding: 12px 0">GitHub</a>
-</div>
-</div>
+  <section id="education" class="container section">
+    <h2>Education</h2>
+    <div class="rows">
+      <div class="row">
+        <p class="row-date">May 2026</p>
+        <div class="row-content">
+          <h3>Hons. B.Sc. Computer Science, York University</h3>
+        </div>
+      </div>
+      <div class="row">
+        <p class="row-date">Sep 2023</p>
+        <div class="row-content">
+          <h3>B.Sc. Psychology, York University</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="container section">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="skill">
+        <h3>AI and agents</h3>
+        <p>LLM tool calling, AWS Bedrock, OpenAI API, WebMCP, RAG and embeddings</p>
+      </div>
+      <div class="skill">
+        <h3>Data engineering</h3>
+        <p>Airflow, ELT, PostgreSQL / pgvector, SQLAlchemy, data validation, Docker</p>
+      </div>
+      <div class="skill">
+        <h3>Machine learning</h3>
+        <p>TensorFlow, computer vision, image segmentation, geospatial and LiDAR data</p>
+      </div>
+      <div class="skill">
+        <h3>Backend</h3>
+        <p>Python, FastAPI, Pydantic, REST APIs, Chrome extensions (MV3)</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact" class="site-footer">
+  <div class="container footer-inner">
+    <h2>Let's talk</h2>
+    <p>Open to AI engineering, data engineering and data science roles anywhere in Ontario.</p>
+
+    <div class="socials">
+      <a class="social" href="https://github.com/Wei-cyber" aria-label="GitHub" title="GitHub">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      <a class="social" href="https://www.linkedin.com/in/junweiq" aria-label="LinkedIn" title="LinkedIn">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.913 1.637-1.632 3.37-1.632 3.601 0 4.267 2.37 4.267 4.455v6.268zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a class="social" href="mailto:jewaytran@gmail.com" aria-label="Email jewaytran@gmail.com" title="jewaytran@gmail.com">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      </a>
+    </div>
+  </div>
 </footer>
 
-</div>
 </body>
 </html>
